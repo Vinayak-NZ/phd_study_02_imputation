@@ -1,0 +1,132 @@
+---
+title: "Study two"
+author: "Vinayak Anand-Kumar"
+date: "2023-07-13"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = here::here())
+```
+
+```{r package-doc, message=FALSE, echo=FALSE, warning=FALSE}
+source("R/00_load_functions.R")
+source("R/00_load_packages.R")
+source("R/01_load_data.R")
+source("R/02_data_edit.R")
+source("R/03_create_synthetic_data.R")
+source("R/04_simulate_missingness.R")
+source("R/05_imputation_J2R.R")
+source("R/05_imputation_LOCF.R")
+source("R/05_imputation_MICE.R")
+source("R/06_modelling_J2R.R")
+source("R/06_modelling_listwise_deletion.R")
+source("R/06_modelling_LOCF.R")
+source("R/06_modelling_MICE.R")
+source("R/06_modelling_observed.R")
+```
+
+```{r external, include=FALSE, warning=FALSE}
+knitr::read_chunk("R/00_load_functions.R")
+knitr::read_chunk("R/00_load_packages.R")
+knitr::read_chunk("R/01_load_data.R")
+knitr::read_chunk("R/02_data_edit.R")
+knitr::read_chunk("R/03_create_synthetic_data.R")
+knitr::read_chunk("R/04_simulate_missingness.R")
+knitr::read_chunk("R/05_imputation_J2R.R")
+knitr::read_chunk("R/05_imputation_LOCF.R")
+knitr::read_chunk("R/05_imputation_MICE.R")
+knitr::read_chunk("R/06_modelling_J2R.R")
+knitr::read_chunk("R/06_modelling_listwise_deletion.R")
+knitr::read_chunk("R/06_modelling_LOCF.R")
+knitr::read_chunk("R/06_modelling_MICE.R")
+knitr::read_chunk("R/06_modelling_observed.R")
+```
+
+## Tools for collaboration
+
+The European Commission has established the FAIR principles to encourage greater collaboration within science. The principles are that research components and output should be:  
+  
+  - Findable: all research material should be stored to be discoverable by wider academic community and public  
+  - Accessible: research material should be presented in a form that can enable its use and interpretation for a broad range of target groups  
+  - Interoperable: research components should be available in formats that can be easily combined and used with other data or tools  
+  - Reusable: research material should be made available in a format that can enable replication and maximise impact  
+  
+In order to address each principle when processing and analysing data for the evaluation of behaviour change interventions, the following tools and infrastrcture are recommended:  
+  
+  - The *Open Science Framework* and *GitHub* to make research **Findable**  
+  - The statistical software tool, *R*, and *Bookdown* to make research **Accessible**  
+  - A *server based implementation of R* and *relational databases* to make research **Interoperable**  
+  - The use of *R projects*, the *renv package* and *Docker* to make research **Reusable**  
+  
+### Findable
+The Open Science Framework (OSF) repository and GitHub both contribute to addressing the Findable principle in open science. OSF provides a centralized platform where researchers can systematically organize and describe projects, making it easier for others to find and understand research. OSF encourages the creation of detailed metadata, clear project descriptions, and structured data storage, enhancing the findability of scientific work.  
+
+GitHub, is a widely-used platform for sharing and collaborating on code and data. By hosting open-source projects and enabling users to create detailed repositories with clear documentation, GitHub enhances the findability of software-related research and promotes transparency in code development, benefiting the open science community.
+
+### Accessibility  
+R is an open-source programming language for statistical computing and graphics, and Bookdown is a tool for creating dynamic and accessible documents, collectively contribute to addressing the Accessibility principle in open science. The open-source nature of R enables researchers worldwide to access and implement steps for data processing and analysis.  
+
+Bookdown, built using the R infrastructure, enables the creation of interactive and accessible documents, such as research reports and books, in multiple formats. These documents can be easily shared and accessed online, promoting accessibility to research findings and facilitating collaboration within the scientific community. Together, R and Bookdown enhance the accessibility of research outputs by offering robust, open, and widely-used tools for data analysis and document dissemination.
+
+### Interoperable
+Server-based R solutions, often used in conjunction with relational databases, effectively address the Interoperable principle in open science. These solutions enable seamless integration of R with various data sources, including relational databases like MySQL, PostgreSQL, or Microsoft SQL Server. By connecting R to these databases, researchers can easily retrieve, manipulate, and analyze structured data stored within them, ensuring interoperability between the database systems and R. This interoperability allows for the combination of data from different sources, promotes collaboration among researchers using different tools, and ensures that data and analyses can work together smoothly, making research more efficient and comprehensive in the open science ecosystem. An advantage of leveraging these tools in a research environment is that researchers across institutions can access the code and data required for data processing and analysis over the browser and are not constrained by variations in operating systems, or Information Technology (IT) restrictions.  
+
+### Reusable
+R projects, the renv package, and Docker contribute to the Reusable principle in open science by promoting transparency, reproducibility, and ease of reuse in data analysis and code development. R projects allow researchers to organize work into self-contained directories, making it easier to share code and data. The renv package helps manage package dependencies within R projects, ensuring that the necessary packages are available for analysis, enhancing the reproducibility of results. Docker takes this a step further by creating isolated, containerized environments that encapsulate the entire analysis environment, including software dependencies and configurations. These Docker containers can be easily shared, enabling others to reproduce the entire computational environment, ensuring maximum reusability and transparency in open science.
+
+## The Case
+This study will demonstrate the implementation of the aforementioned tools using a real life case. The case was a collaborative study between a tertiary institution and a Start-Up to build a statistical analysis pipeline for the evaluation of a digital behaviour change intervention.  
+
+### The Digital Behaviour Change Intervention (DBCI)
+The Start-Up were working on a tool that could be integrated into the care of patients with cardiovascular disease. The tool was developed to help patients recovering after a cardiovascular event. It provided patients lessons and strategies for managing cardiovascular health. The primary goal was to improve disease self management, which was measured using items from the self care of hypertension inventory. There were also secondary outcomes relating to physical activity; to increase movement behaviour, which were measured using the International physical activity questionnaire.  
+
+During the development process, the team worked together with the digital health regulatory agency in Germany to ensure that the app would be supported by Health Insurance providers. A requirement to doing the clinical trail was to provide a clear and detailed plan for analysing the data, including how missingness would be managed. The Start-Up partnered with a tertiary institution, leveraging the expertise of behaviour change researchers and statisticians to develop, test and present a statistical analysis plan to both managers within the Start-Up and to the regulatory agency.  
+
+### The pilot study
+The Start-Up were asked to carry out a pilot study before doing a large scale clinical trail. The purpose of the pilot study was to test and iterate on data collection, processing and analysis practices ahead of the clinical trial. In the pilot study, 40 patients were recruited to take part in a randomised controlled trial; 20 were randomly allocated to the intervention group, and 20 were randomly allocated to a control group. Prior to randomisation, participants responded to a survey evaluating outcome variables at baseline, and providing socio-demographic information including age, sex and education. In both groups, participants were surveyed every three weeks to measure changes in key outcome variables. Data from the pilot study was used to build the first iteration of the statistical analysis plan, and to inform the methods for managing missingness for the clinical trial.
+
+## The statistical analysis plan
+
+### Data processing
+Data from the pilot study was used to simulate clinical trial data. The following steps were taken to simulate the data:  
+  
+  1) The `SimMultiCorrData` package in R was used to simulate a larger sample of data. This package was developed to create synthetic data in clinical applications, mapping the experimental design to a larger sample size whilst persevering features of the empirical data. 226 synthetic records were created; 113 assigned to the control and experimental conditions each.  
+  
+  2) The `ampute` function in the `MICE` package was used to simulate missingness in the synthetic dataset. Based on recommendations from the regulatory agency, an attrition rate of 20% between each time point was simulated with a "Missing at Random" (MAR) mechanism. 
+
+The research team and the regulatory agency were interested in comparing the different approaches to managing missingness, and as a result the following approaches were applied to the simulated data and compared:  
+
+  - Reference based-imputation: Reference based imputation imputes values in both the intervention and control arms using the patterns of change observed in the control arm. That is, if individuals drop out of the study, the rate of change in outcome variables is assumed to mirror the changes observed in the control group.  
+  
+  - Multiple imputation using chained equations (MICE): MICE creates multiple imputed datasets, each with different plausible imputations for the missing values. Each variable with missing data is imputed through modelling; as a function of the other variables in the dataset that have complete information. This process is repeated multiple times (chained equations) to generate several imputed datasets.  
+  
+  - Last observation carried forward (LOCF): Missing data are imputed using the last observation available from the participant.  
+  
+  - List wise deletion: A data handling method that includes only non-missing cases (i.e. participants) in the analysis.  
+  
+  
+### Data analysis
+
+A mixed effects model was used to evaluate the effect of intervention on disease self-management and physical activity. Age, sex and education were controlled for in the model, whilst treatment group and time were modelled as fixed effects, and baseline values were modelled as random effects.  
+
+## An implementation of FAIR
+
+### Tools
+
+1) The study and the statistical analysis plan were registered on the Open Science Framework (OSF).  
+2) A server based implementation of R was set up using Amazon web-services for analysts in both the Start-Up and the tertiary institution to access using a username and password.  
+3) A password-protected MySQL database was set up using Amazon Relational Databases to load the pilot data. This allowed analysts to access the data and manage it through a single location.  
+4) An R-project was set up using Renv.  
+5) The R-project was uploaded and updated throughout the build of the pipeline in GitHub.
+6) A Bookdown file was created to present the methods and results.  
+7) A Docker container was created to take a snapshot of the pipeline and the dependencies to run the code.
+
+### Methods
+
+#### Synthetic data
+
+#### Simulated missingness
+
+#### Comparing missingness strategies
