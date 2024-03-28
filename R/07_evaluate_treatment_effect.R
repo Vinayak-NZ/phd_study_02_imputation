@@ -1,31 +1,39 @@
-## ---- evaluate-J2R
+## ---- evaluate-J2R-treatment
 
-# self-care
-median(models_rmse_vector_sc)
+j2r_rmse_sc <- sqrt(mean((
+  rep(observed_treatment_effect_sc, length(j2r_treatment_effect_sc)) - 
+    j2r_treatment_effect_sc)^2))
 
-# physical-activity
-median(models_rmse_vector_pa)
+j2r_rmse_pa <- sqrt(mean((
+  rep(observed_treatment_effect_pa, length(j2r_treatment_effect_pa)) - 
+    j2r_treatment_effect_pa)^2))
 
-## ---- evaluate-MICE
+## ---- evaluate-MICE-treatment
 
-# self-care
-median(mice_models_rmse_vector_sc)
+mice_rmse_sc <- sqrt(mean((
+  rep(observed_treatment_effect_sc, length(mice_treatment_effect_sc)) - 
+    mice_treatment_effect_sc)^2))
 
-# physical-activity
-median(mice_models_rmse_vector_pa)
+mice_rmse_pa <- sqrt(mean((
+  rep(observed_treatment_effect_pa, length(mice_treatment_effect_pa)) - 
+    mice_treatment_effect_pa)^2))
 
-## ---- evaluate-LOCF
+## ---- evaluate-LOCF-treatment
 
-# self-care
-RMSE.merMod(locf_model_sc)
+locf_rmse_sc <- sqrt(mean((
+  rep(observed_treatment_effect_sc, length(locf_treatment_effect_sc)) - 
+    locf_treatment_effect_sc)^2))
 
-# physical-activity
-RMSE.merMod(locf_model_pa)
+locf_rmse_pa <- sqrt(mean((
+  rep(observed_treatment_effect_pa, length(locf_treatment_effect_pa)) - 
+    locf_treatment_effect_pa)^2))
 
-## ---- evaluate-LWD
+## ---- evaluate-LWD-treatment
 
-# self-care
-RMSE.merMod(lwd_model_sc)
+lwd_rmse_sc <- sqrt(mean((
+  rep(observed_treatment_effect_sc, length(lwd_treatment_effect_sc)) - 
+    lwd_treatment_effect_sc)^2))
 
-# physical-activity
-RMSE.merMod(lwd_model_pa)
+lwd_rmse_pa <- sqrt(mean((
+  rep(observed_treatment_effect_pa, length(lwd_treatment_effect_pa)) - 
+    lwd_treatment_effect_pa)^2))

@@ -35,7 +35,9 @@ lwd_model_sc <- lmer(selfcare ~ randomisation + time + randomisation*time +
                          data = long_data, 
                          REML = F)
 
-interaction_model <- summary(lwd_model_sc)
+lwd_model_sc_summary <- summary(lwd_model_sc)
+
+lwd_treatment_effect_sc <- lwd_model_sc_summary$coefficients[2]
 
 confint(lwd_model_sc)
 
@@ -74,6 +76,8 @@ lwd_model_pa <- lmer(physical_activity ~ randomisation + time + randomisation*ti
                          data = long_data, 
                          REML = F)
 
-interaction_model <- summary(lwd_model_pa)
+lwd_model_pa_summary <- summary(lwd_model_pa)
+
+lwd_treatment_effect_pa <- lwd_model_pa_summary$coefficients[2]
 
 confint(lwd_model_pa)

@@ -38,11 +38,11 @@ interaction.lmer <- lmer(selfcare ~ randomisation + time + randomisation*time +
                          data = long_data, 
                          REML = F)
 
-interaction_model <- summary(interaction.lmer)
+observed_model_summary_sc <- summary(interaction.lmer)
 
 confint(interaction.lmer)
 
-interaction_model
+observed_treatment_effect_sc <- observed_model_summary_sc$coefficients[2]
 
 # physical-activity
 
@@ -80,8 +80,8 @@ interaction.lmer <- lmer(physical_activity ~ randomisation + time + randomisatio
                          data = long_data, 
                          REML = F)
 
-interaction_model <- summary(interaction.lmer)
+observed_model_summary_pa <- summary(interaction.lmer)
 
 confint(interaction.lmer)
 
-interaction_model
+observed_treatment_effect_pa <- observed_model_summary_pa$coefficients[2]

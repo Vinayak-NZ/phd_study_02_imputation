@@ -29,12 +29,18 @@ source("R/06_modelling_LWD.R")
 ## ---- evaluate
 
 source("R/07_evaluate_unit_record_level.R")
+source("R/07_evaluate_treatment_effect.R")
 
-## ---- visualise
+## ---- visualise-basics
 
+source("R/01_load_data.R")
+source("R/02_data_edit.R")
+source("R/03_create_synthetic_data.R")
+source("R/04_simulate_missingness.R")
 source("R/08_visualise_socio_demographics.R")
 source("R/08_visualise_missingness.R")
 source("R/08_visualise_data_comparisons.R")
 
-
+## ---- visualise-estimates
+source("R/08_visualise_estimates.R")
 

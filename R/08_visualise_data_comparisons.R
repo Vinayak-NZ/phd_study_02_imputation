@@ -200,7 +200,7 @@ subset_data_selfcare <- subset_data[, c("randomisation", "sex", "age_cat","educa
 
 subset_data_selfcare$data_source <- "Raw data"
 
-synthetic_data_selfcare <- subset_data[, c("randomisation", "sex", "age_cat","education_cat", 
+synthetic_data_selfcare <- synthetic_data_subset[, c("randomisation", "sex", "age_cat","education_cat", 
                                         "hypertension", "heart_disease", "heart_failure", 
                                         "selfcare_t0", "physical_activity_t0")]
 

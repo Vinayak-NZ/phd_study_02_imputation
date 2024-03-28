@@ -30,7 +30,7 @@ synthetic_data_missing_physical_activity <-
 
 # self-care
 set.seed(500)
-bootImps_sc <- refBasedCts(synthetic_data_missing_selfcare, 
+j2r_bootImps_sc <- refBasedCts(synthetic_data_missing_selfcare, 
                         outcomeVarStem="selfcare_t", 
                         nVisits=2, 
                         trtVar="randomisation", 
@@ -38,15 +38,15 @@ bootImps_sc <- refBasedCts(synthetic_data_missing_selfcare,
                         type="J2R", 
                         M=10)
 
-bootImps_sc_mids <- datlist2mids(bootImps_sc, progress=FALSE)
+j2r_bootImps_sc_mids <- datlist2mids(j2r_bootImps_sc, progress=FALSE)
 
 j2r_imputed_single_sc <- merge_imputations(synthetic_data_missing_selfcare,
-                                       bootImps_sc_mids, 
+                                           j2r_bootImps_sc_mids, 
                                        ori = synthetic_data_missing_selfcare)
 
 # physical-activity
 set.seed(500)
-bootImps_pa <- refBasedCts(synthetic_data_missing_physical_activity, 
+j2r_bootImps_pa <- refBasedCts(synthetic_data_missing_physical_activity, 
                         outcomeVarStem="physical_activity_t", 
                         nVisits=2, 
                         trtVar="randomisation", 
@@ -54,8 +54,8 @@ bootImps_pa <- refBasedCts(synthetic_data_missing_physical_activity,
                         type="J2R", 
                         M=10)
 
-bootImps_pa_mids <- datlist2mids(bootImps_pa, progress=FALSE)
+j2r_bootImps_pa_mids <- datlist2mids(j2r_bootImps_pa, progress=FALSE)
 
 j2r_imputed_single_pa <- merge_imputations(synthetic_data_missing_physical_activity,
-                                       bootImps_pa_mids, 
+                                           j2r_bootImps_pa_mids, 
                                        ori = synthetic_data_missing_physical_activity)

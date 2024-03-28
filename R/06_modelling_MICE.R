@@ -57,25 +57,25 @@ formula <- selfcare ~ randomisation + time + randomisation*time +
   age_cat + sex + 
   education_cat + (1|unique_id)
 
-models_sc <- list()
+mice_models_sc <- list()
 
-models_rmse_sc <- list()
+mice_models_summary_sc <- list()
 
 M <- length(miceImps)
 
 for (mm in 1:M){
   
-  models_sc[[mm]] <- lme4::lmer(formula, data = miceImps[[mm]], REML=FALSE)
+  mice_models_sc[[mm]] <- lme4::lmer(formula, data = miceImps[[mm]], REML=FALSE)
   
-  models_rmse_sc[[mm]] <- RMSE.merMod(models_sc[[mm]])
+  mice_models_summary_sc[[mm]] <- summary(mice_models_sc[[mm]])$coefficients[2]
   
 }
 
-pooled_results_sc <- lmer_pool(models_sc, level = .95)
+mice_pooled_results_sc <- lmer_pool(mice_models_sc, level = .95)
 
-pooled_output_sc <- summary(pooled_results_sc)
+mice_pooled_output_sc <- summary(mice_pooled_results_sc)
 
-mice_models_rmse_vector_sc <- unlist(models_rmse_sc, use.names=FALSE)
+mice_treatment_effect_sc <- unlist(mice_models_summary_sc, use.names=FALSE)
 
 # physical-activity
 
@@ -134,22 +134,22 @@ formula <- physical_activity ~ randomisation + time + randomisation*time +
   age_cat + sex + 
   education_cat + (1|unique_id)
 
-models_pa <- list()
+mice_models_pa <- list()
 
-models_rmse_pa <- list()
+mice_models_summary_pa <- list()
 
 M <- length(miceImps)
 
 for (mm in 1:M){
   
-  models_pa[[mm]] <- lme4::lmer(formula, data = miceImps[[mm]], REML=FALSE)
+  mice_models_pa[[mm]] <- lme4::lmer(formula, data = miceImps[[mm]], REML=FALSE)
   
-  models_rmse_pa[[mm]] <- RMSE.merMod(models_pa[[mm]])
+  mice_models_summary_pa[[mm]] <- summary(mice_models_pa[[mm]])$coefficients[2]
   
 }
 
-pooled_results_pa <- lmer_pool(models_pa, level = .95)
+mice_pooled_results_pa <- lmer_pool(mice_models_pa, level = .95)
 
-pooled_output_pa <- summary(pooled_results_pa)
+mice_pooled_output_pa <- summary(mice_pooled_results_pa)
 
-mice_models_rmse_vector_pa <- unlist(models_rmse_pa, use.names=FALSE)
+mice_treatment_effect_pa <- unlist(mice_models_summary_pa, use.names=FALSE)

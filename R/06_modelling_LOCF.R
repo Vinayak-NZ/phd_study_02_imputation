@@ -35,7 +35,9 @@ locf_model_sc <- lmer(selfcare ~ randomisation + time + randomisation*time +
                          data = long_data, 
                          REML = F)
 
-interaction_model <- summary(locf_model_sc)
+locf_model_sc_summary <- summary(locf_model_sc)
+
+locf_treatment_effect_sc <- locf_model_sc_summary$coefficients[2]
 
 confint(locf_model_sc)
 
@@ -74,7 +76,9 @@ locf_model_pa <- lmer(physical_activity ~ randomisation + time + randomisation*t
                       data = long_data, 
                       REML = F)
 
-interaction_model <- summary(locf_model_pa)
+locf_model_pa_summary <- summary(locf_model_pa)
+
+locf_treatment_effect_pa <- locf_model_pa_summary$coefficients[2]
 
 confint(locf_model_pa)
 
