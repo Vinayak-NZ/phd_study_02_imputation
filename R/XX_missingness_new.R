@@ -2,9 +2,9 @@
 
 simulate_missing_t1 <- function(data, var, proportion, miss_mech){
   
-  data$id <- 1:nrow(data)
+  data$unique_id <- 1:nrow(data)
   
-  data_subset_t1 <- data[, c("id", 
+  data_subset_t1 <- data[, c("unique_id", 
                              "randomisation", 
                              "sex", 
                              "age_cat", 
@@ -41,10 +41,10 @@ create_t2_input <- function(data, var, data_subset_t1_missing_output){
   data_t1_complete <- 
     data_subset_t1_missing_output[complete.cases(data_subset_t1_missing_output), ]
   
-  data_t1_complete_id <- data_t1_complete[, "id"]
+  data_t1_complete_id <- data_t1_complete[, "unique_id"]
   
-  data_t2 <- data[data$id %in% data_t1_complete_id, 
-                                        c("id", 
+  data_t2 <- data[data$unique_id %in% data_t1_complete_id, 
+                                        c("unique_id", 
                                           "randomisation", 
                                           "sex", 
                                           "age_cat", 
@@ -71,7 +71,7 @@ simulate_missing_t2 <- function(data_t2_subset, var, proportion, miss_mech){
                             mech = miss_mech)
   
   data_subset_t2_missing_output <- 
-    data_subset_t2_missing$amp[, c("id", paste0(var, "_t2"))]
+    data_subset_t2_missing$amp[, c("unique_id", paste0(var, "_t2"))]
   
   return(data_subset_t2_missing_output)
   
@@ -79,11 +79,11 @@ simulate_missing_t2 <- function(data_t2_subset, var, proportion, miss_mech){
 
 combine_simulations <- function(data_t1_missing, data_t1_complete, data_t2){
   
-  data_t2_t1_merge <- merge(data_t1_complete, data_t2, by = "id")
+  data_t2_t1_merge <- merge(data_t1_complete, data_t2, by = "unique_id")
 
   simulation_output <- rbind(data_t1_missing, data_t2_t1_merge)
   
-  simulation_output <- simulation_output[order(simulation_output$id), ]
+  simulation_output <- simulation_output[order(simulation_output$unique_id), ]
   
   return(simulation_output)
   
@@ -138,4 +138,4 @@ results_mcar_20 <- simulate_missingness_bulk(data = synthetic_data_subset,
                                              var = "selfcare", 
                                              proportion = 0.2,
                                              miss_mech = "MCAR",
-                                             iterations = 100)
+                                             iterations = 5)

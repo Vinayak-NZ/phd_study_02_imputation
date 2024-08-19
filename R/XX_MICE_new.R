@@ -1,49 +1,82 @@
 ## ---- MICE
 
-#rename id to unique_id
+create_mice_input <- function(data, var){
+  
+  input_variables <- 
+    colnames(data)[grepl(var, names(data))]
+  
+  
+  data_to_impute <-
+    data[, names(data) %in% c("unique_id", 
+                              "randomisation", 
+                              "sex", 
+                              "age_cat", 
+                              "education_cat", 
+                              "hypertension", 
+                              "heart_disease", 
+                              "heart_failure",
+                              input_variables)]
+ 
+  
+  predictor_matrix <- mice::make.predictorMatrix(data_to_impute)
+  
+  predictor_matrix[, c("unique_id")] <- 0
+  
+  return(list(data_to_impute, predictor_matrix))
+   
+}
 
-imputation_var <- "selfcare"
+apply_mice <- function(data_to_impute, predictor_matrix, iterations){
+  
+  mi_object <- mice(
+    data_to_impute,
+    m = iterations,
+    maxit = 50,
+    predictorMatrix = predictor_matrix,
+    seed = 500
+  )
+  
+  return(mi_object)
+  
+}
 
-input_variables <- 
-  colnames(synthetic_data_missing)[grepl(imputation_var, 
-                                         names(synthetic_data_missing))]
+simulate_mice <- function(data, var, iterations){
+  
+  mice_input <- create_mice_input(data = data, 
+                                  var = var)
+  
+  
+  mice_output <- apply_mice(data_to_impute = mice_input[[1]], 
+                            predictor_matrix = mice_input[[2]], 
+                            iterations = iterations)
+  
+  return(mice_output)
+  
+}
 
-data_to_impute <-
-  synthetic_data_missing[, 
-                         names(synthetic_data_missing) %in% c("unique_id", 
-                                                              input_variables)]
+simulate_mice_bulk <- function(input, var, imp_iterations){
+  
+  output <- list()
+  
+  sim_iterations <- length(input)
+  
+  for (sim in 1:sim_iterations) {
+    
+    mice_simulation <- simulate_mice(data = input[[sim]], 
+                                var = var, 
+                                iterations = imp_iterations)
+    
+    output[[paste(sim)]] <- mice_simulation
+    
+  }
+  
+  return(output)
+  
+}
 
-missing_input_vars <-
-  colnames(data_to_impute)[apply(data_to_impute,
-                                 2,
-                                 anyNA)]
+## ---- example-execution
 
-data_to_impute <-
-  synthetic_data_missing[, 
-                         names(synthetic_data_missing) %in% 
-                           c("unique_id", missing_input_vars)]
+mice_results_mcar_20 <- simulate_mice_bulk(input = results_mcar_20, 
+                                           var = "selfcare", 
+                                           imp_iterations = 20)
 
-data_remainder <- synthetic_data_missing[, 
-                                         !names(synthetic_data_missing) %in% 
-                                           missing_input_vars]
-
-predictor_matrix <- matrix(rep(1,
-                               ncol(data_to_impute) * ncol(data_to_impute)),
-                           nrow = ncol(data_to_impute),
-                           byrow = TRUE)
-diag(predictor_matrix) <- 0
-predictor_matrix[, 1] <- 0
-
-mi_object <- mice(
-  data_to_impute,
-  m = 10,
-  maxit = 50,
-  predictorMatrix = predictor_matrix,
-  seed = 500
-)
-
-data_imputed <- merge_imputations(data_to_impute,
-                                  mi_object,
-                                  ori = data_to_impute)
-
-data_mice <- merge(data_remainder, data_imputed, by = "unique_id")
