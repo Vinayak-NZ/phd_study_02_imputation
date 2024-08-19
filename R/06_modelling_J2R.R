@@ -1,125 +1,93 @@
-## ---- modelling-J2R
+## ---- selfcare-J2R-modelling
 
-# self-care
+#MCAR-20
+sc_j2r_model_mcar_20 <- model_j2r_bulk(input = sc_j2r_mcar_20, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-for (i in 1:length(j2r_bootImps_sc)){
-  
-  j2r_bootImps_sc[[i]] <- j2r_bootImps_sc[[i]][, c("unique_id", 
-                                     "randomisation", 
-                                     "age_cat",
-                                     "sex", 
-                                     "education_cat", 
-                                     "selfcare_t0", 
-                                     "selfcare_t1",
-                                     "selfcare_t2")]
-  
-  setDT(j2r_bootImps_sc[[i]])
-  
-  j2r_bootImps_sc[[i]] <- melt(j2r_bootImps_sc[[i]], 
-                        id.vars = c("unique_id", 
-                                    "randomisation", 
-                                    "age_cat", 
-                                    "sex", 
-                                    "education_cat"), 
-                        variable.name = "time", 
-                        value.name = "selfcare")
-  
-  j2r_bootImps_sc[[i]][, "time"] <- ifelse(j2r_bootImps_sc[[i]][, "time"] == "selfcare_t0", 
-                                    "baseline", 
-                                    ifelse(j2r_bootImps_sc[[i]][, "time"] == "selfcare_t1", 
-                                           "week-12", 
-                                           "week-24"))
-  
-  j2r_bootImps_sc[[i]]$time <- as.factor(j2r_bootImps_sc[[i]]$time)
-  
-  j2r_bootImps_sc[[i]]$selfcare <- abs(as.numeric(j2r_bootImps_sc[[i]]$selfcare))
-  
-  j2r_bootImps_sc[[i]] <- as.data.frame(j2r_bootImps_sc[[i]])
-  
-}
+#MCAR-30
+sc_j2r_model_mcar_30 <- model_j2r_bulk(input = sc_j2r_mcar_30, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-formula <- selfcare ~ randomisation + time + randomisation*time + 
-  age_cat + sex + 
-  education_cat + (1|unique_id)
+#MCAR-40
+sc_j2r_model_mcar_40 <- model_j2r_bulk(input = sc_j2r_mcar_40, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-models_sc <- list()
+#MAR-20
+sc_j2r_model_mar_20 <- model_j2r_bulk(input = sc_j2r_mar_20, 
+                                        var = "selfcare", 
+                                        uprange = 100)
 
-models_summary_sc <- list()
+#MAR-30
+sc_j2r_model_mar_30 <- model_j2r_bulk(input = sc_j2r_mar_30, 
+                                        var = "selfcare", 
+                                        uprange = 100)
 
-M <- length(j2r_bootImps_sc)
+#MAR-40
+sc_j2r_model_mar_40 <- model_j2r_bulk(input = sc_j2r_mar_40, 
+                                        var = "selfcare", 
+                                        uprange = 100)
 
-for (mm in 1:M){
-  
-  models_sc[[mm]] <- lme4::lmer(formula, data = j2r_bootImps_sc[[mm]], REML=FALSE)
-  
-  models_summary_sc[[mm]] <- summary(models_sc[[mm]])$coefficients[2]
-  
-}
+#MAR-20
+sc_j2r_model_mnar_20 <- model_j2r_bulk(input = sc_j2r_mnar_20, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-j2r_pooled_results_sc <- lmer_pool(models_sc, level = .95)
+#MAR-30
+sc_j2r_model_mnar_30 <- model_j2r_bulk(input = sc_j2r_mnar_30, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-j2r_pooled_output_sc <- summary(j2r_pooled_results_sc)
+#MAR-40
+sc_j2r_model_mnar_40 <- model_j2r_bulk(input = sc_j2r_mnar_40, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-j2r_treatment_effect_sc <- unlist(models_summary_sc, use.names=FALSE)
+## ---- physical-activity-J2R-modelling
 
-# physical-activity
+#MCAR-20
+pa_j2r_model_mcar_20 <- model_j2r_bulk(input = pa_j2r_mcar_20, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-for (i in 1:length(j2r_bootImps_pa)){
-  
-  j2r_bootImps_pa[[i]] <- j2r_bootImps_pa[[i]][, c("unique_id", 
-                                           "randomisation", 
-                                           "age_cat",
-                                           "sex", 
-                                           "education_cat", 
-                                           "physical_activity_t0", 
-                                           "physical_activity_t1",
-                                           "physical_activity_t2")]
-  
-  setDT(j2r_bootImps_pa[[i]])
-  
-  j2r_bootImps_pa[[i]] <- melt(j2r_bootImps_pa[[i]], 
-                           id.vars = c("unique_id", 
-                                       "randomisation", 
-                                       "age_cat", 
-                                       "sex", 
-                                       "education_cat"), 
-                           variable.name = "time", 
-                           value.name = "physical_activity")
-  
-  j2r_bootImps_pa[[i]][, "time"] <- ifelse(j2r_bootImps_pa[[i]][, "time"] == "physical_activity_t0", 
-                                       "baseline", 
-                                       ifelse(j2r_bootImps_pa[[i]][, "time"] == "physical_activity_t1", 
-                                              "week-12", 
-                                              "week-24"))
-  
-  j2r_bootImps_pa[[i]]$time <- as.factor(j2r_bootImps_pa[[i]]$time)
-  
-  j2r_bootImps_pa[[i]]$physical_activity <- abs(as.numeric(j2r_bootImps_pa[[i]]$physical_activity))
-  
-  j2r_bootImps_pa[[i]] <- as.data.frame(j2r_bootImps_pa[[i]])
-  
-}
+#MCAR-30
+pa_j2r_model_mcar_30 <- model_j2r_bulk(input = pa_j2r_mcar_30, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-formula <- physical_activity ~ randomisation + time + randomisation*time + 
-  age_cat + sex + 
-  education_cat + (1|unique_id)
+#MCAR-40
+pa_j2r_model_mcar_40 <- model_j2r_bulk(input = pa_j2r_mcar_40, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-models_pa <- list()
+#MAR-20
+pa_j2r_model_mar_20 <- model_j2r_bulk(input = pa_j2r_mar_20, 
+                                        var = "physical_activity", 
+                                        uprange = 20000)
 
-models_summary_pa <- list()
+#MAR-30
+pa_j2r_model_mar_30 <- model_j2r_bulk(input = pa_j2r_mar_30, 
+                                        var = "physical_activity", 
+                                        uprange = 20000)
 
-M <- length(j2r_bootImps_pa)
+#MAR-40
+pa_j2r_model_mar_40 <- model_j2r_bulk(input = pa_j2r_mar_40, 
+                                        var = "physical_activity", 
+                                        uprange = 20000)
 
-for (mm in 1:M){
-  
-  models_pa[[mm]] <- lme4::lmer(formula, data = j2r_bootImps_pa[[mm]], REML=FALSE)
-  
-  models_summary_pa[[mm]] <- summary(models_pa[[mm]])$coefficients[2]
-  
-}
+#MAR-20
+pa_j2r_model_mnar_20 <- model_j2r_bulk(input = pa_j2r_mnar_20, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-j2r_pooled_results_pa <- lmer_pool(models_pa, level = .95)
+#MAR-30
+pa_j2r_model_mnar_30 <- model_j2r_bulk(input = pa_j2r_mnar_30, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-j2r_pooled_output_pa <- summary(j2r_pooled_results_pa)
-
-j2r_treatment_effect_pa <- unlist(models_summary_pa, use.names=FALSE)
+#MAR-40
+pa_j2r_model_mnar_40 <- model_j2r_bulk(input = pa_j2r_mnar_40, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)

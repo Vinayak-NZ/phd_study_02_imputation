@@ -1,47 +1,111 @@
-## ---- MICE
+## ---- selfcare-MICE
 
-subset_vars <- c("selfcare", "physical_activity")
+#MCAR-20
 
-input_variables <- 
-  colnames(synthetic_data_missing)[grepl(paste(subset_vars, collapse = "|"), 
-                                         names(synthetic_data_missing))]
+sc_mice_mcar_20 <- simulate_mice_bulk(input = sc_missing_mcar_20, 
+                                           var = "selfcare", 
+                                           imp_iterations = 20)
 
-data_to_impute <-
-  synthetic_data_missing[, 
-                         names(synthetic_data_missing) %in% c("unique_id", 
-                                                              input_variables)]
+#MCAR-30
 
-missing_input_vars <-
-  colnames(data_to_impute)[apply(data_to_impute,
-                                 2,
-                                 anyNA)]
+sc_mice_mcar_30 <- simulate_mice_bulk(input = sc_missing_mcar_30, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
 
-data_to_impute <-
-  synthetic_data_missing[, 
-                         names(synthetic_data_missing) %in% 
-                           c("unique_id", missing_input_vars)]
+#MCAR-40
 
-data_remainder <- synthetic_data_missing[, 
-                                         !names(synthetic_data_missing) %in% 
-                                           missing_input_vars]
+sc_mice_mcar_40 <- simulate_mice_bulk(input = sc_missing_mcar_40, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
 
-predictor_matrix <- matrix(rep(1,
-                               ncol(data_to_impute) * ncol(data_to_impute)),
-                           nrow = ncol(data_to_impute),
-                           byrow = TRUE)
-diag(predictor_matrix) <- 0
-predictor_matrix[, 1] <- 0
+#MAR-20
 
-mi_object <- mice(
-  data_to_impute,
-  m = 10,
-  maxit = 50,
-  predictorMatrix = predictor_matrix,
-  seed = 500
-)
+sc_mice_mar_20 <- simulate_mice_bulk(input = sc_missing_mar_20, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
 
-data_imputed <- merge_imputations(data_to_impute,
-                                  mi_object,
-                                  ori = data_to_impute)
+#MAR-30
 
-data_mice <- merge(data_remainder, data_imputed, by = "unique_id")
+sc_mice_mar_30 <- simulate_mice_bulk(input = sc_missing_mar_30, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
+
+#MAR-40
+
+sc_mice_mar_40 <- simulate_mice_bulk(input = sc_missing_mar_40, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
+
+#MNAR-20
+
+sc_mice_mnar_20 <- simulate_mice_bulk(input = sc_missing_mnar_20, 
+                                     var = "selfcare", 
+                                     imp_iterations = 20)
+
+#MNAR-30
+
+sc_mice_mnar_30 <- simulate_mice_bulk(input = sc_missing_mnar_30, 
+                                     var = "selfcare", 
+                                     imp_iterations = 20)
+
+#MNAR-40
+
+sc_mice_mnar_40 <- simulate_mice_bulk(input = sc_missing_mnar_40, 
+                                     var = "selfcare", 
+                                     imp_iterations = 20)
+
+## ---- physical-activity-MICE
+
+#MCAR-20
+
+pa_mice_mcar_20 <- simulate_mice_bulk(input = pa_missing_mcar_20, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MCAR-30
+
+pa_mice_mcar_30 <- simulate_mice_bulk(input = pa_missing_mcar_30, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MCAR-40
+
+pa_mice_mcar_40 <- simulate_mice_bulk(input = pa_missing_mcar_40, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MAR-20
+
+pa_mice_mar_20 <- simulate_mice_bulk(input = pa_missing_mar_20, 
+                                     var = "physical_activity", 
+                                     imp_iterations = 20)
+
+#MAR-30
+
+pa_mice_mar_30 <- simulate_mice_bulk(input = pa_missing_mar_30, 
+                                     var = "physical_activity", 
+                                     imp_iterations = 20)
+
+#MAR-40
+
+pa_mice_mar_40 <- simulate_mice_bulk(input = pa_missing_mar_40, 
+                                     var = "physical_activity", 
+                                     imp_iterations = 20)
+
+#MNAR-20
+
+pa_mice_mnar_20 <- simulate_mice_bulk(input = pa_missing_mnar_20, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MNAR-30
+
+pa_mice_mnar_30 <- simulate_mice_bulk(input = pa_missing_mnar_30, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MNAR-40
+
+pa_mice_mnar_40 <- simulate_mice_bulk(input = pa_missing_mnar_40, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)

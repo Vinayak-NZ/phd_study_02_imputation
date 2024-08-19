@@ -1,84 +1,75 @@
-## ---- modelling-LOCF
+## ---- selfcare-LOCF-modelling
 
-# self-care
-subset_data <- post_locf[, c("unique_id", 
-                             "randomisation", 
-                             "age_cat", 
-                             "sex", 
-                             "education_cat", 
-                             "selfcare_t0", 
-                             "selfcare_t1", 
-                             "selfcare_t2")]
+#MCAR-20
+sc_locf_model_mcar_20 <- model_locf_bulk(input = sc_locf_mcar_20, 
+                                       var = "selfcare")
 
-subset_data <- subset_data[complete.cases(subset_data), ]
+#MCAR-30
+sc_locf_model_mcar_30 <- model_locf_bulk(input = sc_locf_mcar_30, 
+                                       var = "selfcare")
 
-setDT(subset_data)
+#MCAR-40
+sc_locf_model_mcar_40 <- model_locf_bulk(input = sc_locf_mcar_40, 
+                                       var = "selfcare")
 
-long_data <- melt(subset_data, 
-                  id.vars = c("unique_id", 
-                              "randomisation", 
-                              "age_cat", 
-                              "sex", 
-                              "education_cat"), 
-                  variable.name = "time", 
-                  value.name = "selfcare")
+#MAR-20
+sc_locf_model_mar_20 <- model_locf_bulk(input = sc_locf_mar_20, 
+                                      var = "selfcare")
 
-long_data[, "time"] <- ifelse(long_data[, "time"] == "selfcare_t0", 
-                              "baseline", 
-                              ifelse(long_data[, "time"] == "selfcare_t1", 
-                                     "week-12", 
-                                     "week-24"))
+#MAR-30
+sc_locf_model_mar_30 <- model_locf_bulk(input = sc_locf_mar_30, 
+                                      var = "selfcare")
 
-locf_model_sc <- lmer(selfcare ~ randomisation + time + randomisation*time + 
-                           age_cat + sex + 
-                           education_cat + (1|unique_id), 
-                         data = long_data, 
-                         REML = F)
+#MAR-40
+sc_locf_model_mar_40 <- model_locf_bulk(input = sc_locf_mar_40, 
+                                      var = "selfcare")
 
-locf_model_sc_summary <- summary(locf_model_sc)
+#MAR-20
+sc_locf_model_mnar_20 <- model_locf_bulk(input = sc_locf_mnar_20, 
+                                       var = "selfcare")
 
-locf_treatment_effect_sc <- locf_model_sc_summary$coefficients[2]
+#MAR-30
+sc_locf_model_mnar_30 <- model_locf_bulk(input = sc_locf_mnar_30, 
+                                       var = "selfcare")
 
-confint(locf_model_sc)
+#MAR-40
+sc_locf_model_mnar_40 <- model_locf_bulk(input = sc_locf_mnar_40, 
+                                       var = "selfcare")
 
-# physical-activity
-subset_data <- post_locf[, c("unique_id", 
-                             "randomisation", 
-                             "age_cat", 
-                             "sex", 
-                             "education_cat", 
-                             "physical_activity_t0", 
-                             "physical_activity_t1", 
-                             "physical_activity_t2")]
+## ---- physical-activity-LOCF-modelling
 
-subset_data <- subset_data[complete.cases(subset_data), ]
+#MCAR-20
+pa_locf_model_mcar_20 <- model_locf_bulk(input = pa_locf_mcar_20, 
+                                       var = "physical_activity")
 
-setDT(subset_data)
+#MCAR-30
+pa_locf_model_mcar_30 <- model_locf_bulk(input = pa_locf_mcar_30, 
+                                       var = "physical_activity")
 
-long_data <- melt(subset_data, 
-                  id.vars = c("unique_id", 
-                              "randomisation", 
-                              "age_cat", 
-                              "sex", 
-                              "education_cat"), 
-                  variable.name = "time", 
-                  value.name = "physical_activity")
+#MCAR-40
+pa_locf_model_mcar_40 <- model_locf_bulk(input = pa_locf_mcar_40, 
+                                       var = "physical_activity")
 
-long_data[, "time"] <- ifelse(long_data[, "time"] == "physical_activity_t0", 
-                              "baseline", 
-                              ifelse(long_data[, "time"] == "physical_activity_t1", 
-                                     "week-12", 
-                                     "week-24"))
+#MAR-20
+pa_locf_model_mar_20 <- model_locf_bulk(input = pa_locf_mar_20, 
+                                      var = "physical_activity")
 
-locf_model_pa <- lmer(physical_activity ~ randomisation + time + randomisation*time + 
-                        age_cat + sex + 
-                        education_cat + (1|unique_id), 
-                      data = long_data, 
-                      REML = F)
+#MAR-30
+pa_locf_model_mar_30 <- model_locf_bulk(input = pa_locf_mar_30, 
+                                      var = "physical_activity")
 
-locf_model_pa_summary <- summary(locf_model_pa)
+#MAR-40
+pa_locf_model_mar_40 <- model_locf_bulk(input = pa_locf_mar_40, 
+                                      var = "physical_activity")
 
-locf_treatment_effect_pa <- locf_model_pa_summary$coefficients[2]
+#MAR-20
+pa_locf_model_mnar_20 <- model_locf_bulk(input = pa_locf_mnar_20, 
+                                       var = "physical_activity")
 
-confint(locf_model_pa)
+#MAR-30
+pa_locf_model_mnar_30 <- model_locf_bulk(input = pa_locf_mnar_30, 
+                                       var = "physical_activity")
 
+#MAR-40
+pa_locf_model_mnar_40 <- model_locf_bulk(input = pa_locf_mnar_40, 
+                                       var = "physical_activity")

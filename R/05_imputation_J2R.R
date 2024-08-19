@@ -1,61 +1,111 @@
-## ---- J2R-preparation
+## ---- selfcare-J2R
 
-# self-care
+#MCAR-20
 
-synthetic_data_missing_selfcare <- 
-  synthetic_data_missing[, names(synthetic_data_missing) %in% 
-                           c("unique_id", 
-                             "randomisation",
-                             "selfcare_t0", 
-                             "selfcare_t1",
-                             "selfcare_t2",
-                             "sex",
-                             "age_cat",
-                             "education_cat")]
+sc_j2r_mcar_20 <- simulate_j2r_bulk(input = sc_missing_mcar_20, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
 
-# physical-activity
+#MCAR-30
 
-synthetic_data_missing_physical_activity <- 
-  synthetic_data_missing[, names(synthetic_data_missing) %in% 
-                           c("unique_id", 
-                             "randomisation",
-                             "physical_activity_t0", 
-                             "physical_activity_t1",
-                             "physical_activity_t2",
-                             "sex",
-                             "age_cat",
-                             "education_cat")]
+sc_j2r_mcar_30 <- simulate_j2r_bulk(input = sc_missing_mcar_30, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
 
-## ---- J2R-imputation
+#MCAR-40
 
-# self-care
-set.seed(500)
-j2r_bootImps_sc <- refBasedCts(synthetic_data_missing_selfcare, 
-                        outcomeVarStem="selfcare_t", 
-                        nVisits=2, 
-                        trtVar="randomisation", 
-                        baselineVars="selfcare_t0", 
-                        type="J2R", 
-                        M=10)
+sc_j2r_mcar_40 <- simulate_j2r_bulk(input = sc_missing_mcar_40, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
 
-j2r_bootImps_sc_mids <- datlist2mids(j2r_bootImps_sc, progress=FALSE)
+#MAR-20
 
-j2r_imputed_single_sc <- merge_imputations(synthetic_data_missing_selfcare,
-                                           j2r_bootImps_sc_mids, 
-                                       ori = synthetic_data_missing_selfcare)
+sc_j2r_mar_20 <- simulate_j2r_bulk(input = sc_missing_mar_20, 
+                                     var = "selfcare", 
+                                     imp_iterations = 20)
 
-# physical-activity
-set.seed(500)
-j2r_bootImps_pa <- refBasedCts(synthetic_data_missing_physical_activity, 
-                        outcomeVarStem="physical_activity_t", 
-                        nVisits=2, 
-                        trtVar="randomisation", 
-                        baselineVars="physical_activity_t0", 
-                        type="J2R", 
-                        M=10)
+#MAR-30
 
-j2r_bootImps_pa_mids <- datlist2mids(j2r_bootImps_pa, progress=FALSE)
+sc_j2r_mar_30 <- simulate_j2r_bulk(input = sc_missing_mar_30, 
+                                     var = "selfcare", 
+                                     imp_iterations = 20)
 
-j2r_imputed_single_pa <- merge_imputations(synthetic_data_missing_physical_activity,
-                                           j2r_bootImps_pa_mids, 
-                                       ori = synthetic_data_missing_physical_activity)
+#MAR-40
+
+sc_j2r_mar_40 <- simulate_j2r_bulk(input = sc_missing_mar_40, 
+                                     var = "selfcare", 
+                                     imp_iterations = 20)
+
+#MNAR-20
+
+sc_j2r_mnar_20 <- simulate_j2r_bulk(input = sc_missing_mnar_20, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
+
+#MNAR-30
+
+sc_j2r_mnar_30 <- simulate_j2r_bulk(input = sc_missing_mnar_30, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
+
+#MNAR-40
+
+sc_j2r_mnar_40 <- simulate_j2r_bulk(input = sc_missing_mnar_40, 
+                                      var = "selfcare", 
+                                      imp_iterations = 20)
+
+## ---- physical-activity-J2R
+
+#MCAR-20
+
+pa_j2r_mcar_20 <- simulate_j2r_bulk(input = pa_missing_mcar_20, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MCAR-30
+
+pa_j2r_mcar_30 <- simulate_j2r_bulk(input = pa_missing_mcar_30, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MCAR-40
+
+pa_j2r_mcar_40 <- simulate_j2r_bulk(input = pa_missing_mcar_40, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MAR-20
+
+pa_j2r_mar_20 <- simulate_j2r_bulk(input = pa_missing_mar_20, 
+                                     var = "physical_activity", 
+                                     imp_iterations = 20)
+
+#MAR-30
+
+pa_j2r_mar_30 <- simulate_j2r_bulk(input = pa_missing_mar_30, 
+                                     var = "physical_activity", 
+                                     imp_iterations = 20)
+
+#MAR-40
+
+pa_j2r_mar_40 <- simulate_j2r_bulk(input = pa_missing_mar_40, 
+                                     var = "physical_activity", 
+                                     imp_iterations = 20)
+
+#MNAR-20
+
+pa_j2r_mnar_20 <- simulate_j2r_bulk(input = pa_missing_mnar_20, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MNAR-30
+
+pa_j2r_mnar_30 <- simulate_j2r_bulk(input = pa_missing_mnar_30, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)
+
+#MNAR-40
+
+pa_j2r_mnar_40 <- simulate_j2r_bulk(input = pa_missing_mnar_40, 
+                                      var = "physical_activity", 
+                                      imp_iterations = 20)

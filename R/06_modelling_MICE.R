@@ -1,155 +1,93 @@
-## ---- MICE-modelling
+## ---- selfcare-MICE-modelling
 
-# self-care
+#MCAR-20
+sc_mice_model_mcar_20 <- model_mice_bulk(input = sc_mice_mcar_20, 
+                                      var = "selfcare", 
+                                      uprange = 100)
 
-miceImps <- list()
+#MCAR-30
+sc_mice_model_mcar_30 <- model_mice_bulk(input = sc_mice_mcar_30, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-for (i in 1:mi_object$m){
-  
-  miceImps[[i]] <- complete(mi_object, i)
-  
-  miceImps[[i]]  <- merge(data_remainder, 
-                          miceImps[[i]], 
-                          by = "unique_id")
-  
-}
+#MCAR-40
+sc_mice_model_mcar_40 <- model_mice_bulk(input = sc_mice_mcar_40, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-for (i in 1:length(miceImps)){
-  
-  
-  
-  
-  miceImps[[i]] <- miceImps[[i]][, c("unique_id", 
-                                     "randomisation", 
-                                     "age_cat", 
-                                     "sex", 
-                                     "education_cat", 
-                                     "selfcare_t0", 
-                                     "selfcare_t1", 
-                                     "selfcare_t2")]
-  
-  setDT(miceImps[[i]])
-  
-  miceImps[[i]] <- melt(miceImps[[i]], 
-                        id.vars = c("unique_id", 
-                                    "randomisation", 
-                                    "age_cat", 
-                                    "sex", 
-                                    "education_cat"), 
-                        variable.name = "time", 
-                        value.name = "selfcare")
-  
-  miceImps[[i]][, "time"] <- ifelse(miceImps[[i]][, "time"] == "selfcare_t0", 
-                                    "baseline", 
-                                    ifelse(miceImps[[i]][, "time"] == "selfcare_t1", 
-                                           "week-12", 
-                                           "week-24"))
-  
-  miceImps[[i]]$time <- as.factor(miceImps[[i]]$time)
-  
-  miceImps[[i]]$selfcare <- abs(as.numeric(miceImps[[i]]$selfcare))
-  
-  miceImps[[i]] <- as.data.frame(miceImps[[i]])
-  
-}
+#MAR-20
+sc_mice_model_mar_20 <- model_mice_bulk(input = sc_mice_mar_20, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-formula <- selfcare ~ randomisation + time + randomisation*time + 
-  age_cat + sex + 
-  education_cat + (1|unique_id)
+#MAR-30
+sc_mice_model_mar_30 <- model_mice_bulk(input = sc_mice_mar_30, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-mice_models_sc <- list()
+#MAR-40
+sc_mice_model_mar_40 <- model_mice_bulk(input = sc_mice_mar_40, 
+                                         var = "selfcare", 
+                                         uprange = 100)
 
-mice_models_summary_sc <- list()
+#MAR-20
+sc_mice_model_mnar_20 <- model_mice_bulk(input = sc_mice_mnar_20, 
+                                        var = "selfcare", 
+                                        uprange = 100)
 
-M <- length(miceImps)
+#MAR-30
+sc_mice_model_mnar_30 <- model_mice_bulk(input = sc_mice_mnar_30, 
+                                        var = "selfcare", 
+                                        uprange = 100)
 
-for (mm in 1:M){
-  
-  mice_models_sc[[mm]] <- lme4::lmer(formula, data = miceImps[[mm]], REML=FALSE)
-  
-  mice_models_summary_sc[[mm]] <- summary(mice_models_sc[[mm]])$coefficients[2]
-  
-}
+#MAR-40
+sc_mice_model_mnar_40 <- model_mice_bulk(input = sc_mice_mnar_40, 
+                                        var = "selfcare", 
+                                        uprange = 100)
 
-mice_pooled_results_sc <- lmer_pool(mice_models_sc, level = .95)
+## ---- physical-activity-MICE-modelling
 
-mice_pooled_output_sc <- summary(mice_pooled_results_sc)
+#MCAR-20
+pa_mice_model_mcar_20 <- model_mice_bulk(input = pa_mice_mcar_20, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-mice_treatment_effect_sc <- unlist(mice_models_summary_sc, use.names=FALSE)
+#MCAR-30
+pa_mice_model_mcar_30 <- model_mice_bulk(input = pa_mice_mcar_30, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-# physical-activity
+#MCAR-40
+pa_mice_model_mcar_40 <- model_mice_bulk(input = pa_mice_mcar_40, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-miceImps <- list()
+#MAR-20
+pa_mice_model_mar_20 <- model_mice_bulk(input = pa_mice_mar_20, 
+                                        var = "physical_activity", 
+                                        uprange = 20000)
 
-for (i in 1:mi_object$m){
-  
-  miceImps[[i]] <- complete(mi_object, i)
-  
-  miceImps[[i]]  <- merge(data_remainder, 
-                          miceImps[[i]], 
-                          by = "unique_id")
-  
-}
+#MAR-30
+pa_mice_model_mar_30 <- model_mice_bulk(input = pa_mice_mar_30, 
+                                        var = "physical_activity", 
+                                        uprange = 20000)
 
-for (i in 1:length(miceImps)){
-  
-  
-  
-  
-  miceImps[[i]] <- miceImps[[i]][, c("unique_id", 
-                                     "randomisation", 
-                                     "age_cat", 
-                                     "sex", 
-                                     "education_cat", 
-                                     "physical_activity_t0", 
-                                     "physical_activity_t1", 
-                                     "physical_activity_t2")]
-  
-  setDT(miceImps[[i]])
-  
-  miceImps[[i]] <- melt(miceImps[[i]], 
-                        id.vars = c("unique_id", 
-                                    "randomisation", 
-                                    "age_cat", 
-                                    "sex", 
-                                    "education_cat"), 
-                        variable.name = "time", 
-                        value.name = "physical_activity")
-  
-  miceImps[[i]][, "time"] <- ifelse(miceImps[[i]][, "time"] == "physical_activity_t0", 
-                                    "baseline", 
-                                    ifelse(miceImps[[i]][, "time"] == "physical_activity_t1", 
-                                           "week-12", 
-                                           "week-24"))
-  
-  miceImps[[i]]$time <- as.factor(miceImps[[i]]$time)
-  
-  miceImps[[i]]$physical_activity <- abs(as.numeric(miceImps[[i]]$physical_activity))
-  
-  miceImps[[i]] <- as.data.frame(miceImps[[i]])
-  
-}
+#MAR-40
+pa_mice_model_mar_40 <- model_mice_bulk(input = pa_mice_mar_40, 
+                                        var = "physical_activity", 
+                                        uprange = 20000)
 
-formula <- physical_activity ~ randomisation + time + randomisation*time + 
-  age_cat + sex + 
-  education_cat + (1|unique_id)
+#MAR-20
+pa_mice_model_mnar_20 <- model_mice_bulk(input = pa_mice_mnar_20, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-mice_models_pa <- list()
+#MAR-30
+pa_mice_model_mnar_30 <- model_mice_bulk(input = pa_mice_mnar_30, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
 
-mice_models_summary_pa <- list()
-
-M <- length(miceImps)
-
-for (mm in 1:M){
-  
-  mice_models_pa[[mm]] <- lme4::lmer(formula, data = miceImps[[mm]], REML=FALSE)
-  
-  mice_models_summary_pa[[mm]] <- summary(mice_models_pa[[mm]])$coefficients[2]
-  
-}
-
-mice_pooled_results_pa <- lmer_pool(mice_models_pa, level = .95)
-
-mice_pooled_output_pa <- summary(mice_pooled_results_pa)
-
-mice_treatment_effect_pa <- unlist(mice_models_summary_pa, use.names=FALSE)
+#MAR-40
+pa_mice_model_mnar_40 <- model_mice_bulk(input = pa_mice_mnar_40, 
+                                         var = "physical_activity", 
+                                         uprange = 20000)
