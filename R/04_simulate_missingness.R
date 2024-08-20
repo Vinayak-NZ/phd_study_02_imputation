@@ -18,7 +18,7 @@ sc_missing_mcar_30 <- simulate_missingness_bulk(data = synthetic_data_subset,
 
 #MCAR-40
 
-sc_missing_mcar_30 <- simulate_missingness_bulk(data = synthetic_data_subset, 
+sc_missing_mcar_40 <- simulate_missingness_bulk(data = synthetic_data_subset, 
                                                 var = "selfcare", 
                                                 proportion = 0.4,
                                                 miss_mech = "MCAR",
@@ -42,7 +42,7 @@ sc_missing_mar_30 <- simulate_missingness_bulk(data = synthetic_data_subset,
 
 #MAR-40
 
-sc_missing_mar_30 <- simulate_missingness_bulk(data = synthetic_data_subset, 
+sc_missing_mar_40 <- simulate_missingness_bulk(data = synthetic_data_subset, 
                                                 var = "selfcare", 
                                                 proportion = 0.4,
                                                 miss_mech = "MAR",
@@ -66,7 +66,7 @@ sc_missing_mnar_30 <- simulate_missingness_bulk(data = synthetic_data_subset,
 
 #MNAR-40
 
-sc_missing_mnar_30 <- simulate_missingness_bulk(data = synthetic_data_subset, 
+sc_missing_mnar_40 <- simulate_missingness_bulk(data = synthetic_data_subset, 
                                                 var = "selfcare", 
                                                 proportion = 0.4,
                                                 miss_mech = "MNAR",
@@ -92,7 +92,7 @@ pa_missing_mcar_30 <- simulate_missingness_bulk(data = synthetic_data_subset,
 
 #MCAR-40
 
-pa_missing_mcar_30 <- simulate_missingness_bulk(data = synthetic_data_subset, 
+pa_missing_mcar_40 <- simulate_missingness_bulk(data = synthetic_data_subset, 
                                                 var = "physical_activity", 
                                                 proportion = 0.4,
                                                 miss_mech = "MCAR",
@@ -116,7 +116,7 @@ pa_missing_mar_30 <- simulate_missingness_bulk(data = synthetic_data_subset,
 
 #MAR-40
 
-pa_missing_mar_30 <- simulate_missingness_bulk(data = synthetic_data_subset, 
+pa_missing_mar_40 <- simulate_missingness_bulk(data = synthetic_data_subset, 
                                                 var = "physical_activity", 
                                                 proportion = 0.4,
                                                 miss_mech = "MAR",
@@ -140,7 +140,7 @@ pa_missing_mnar_30 <- simulate_missingness_bulk(data = synthetic_data_subset,
 
 #MNAR-40
 
-pa_missing_mnar_30 <- simulate_missingness_bulk(data = synthetic_data_subset, 
+pa_missing_mnar_40 <- simulate_missingness_bulk(data = synthetic_data_subset, 
                                                var = "physical_activity", 
                                                proportion = 0.4,
                                                miss_mech = "MNAR",

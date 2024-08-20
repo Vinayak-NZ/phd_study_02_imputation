@@ -51,6 +51,25 @@ derive_edu_cat <- function(data, input, output){
   
 }
 
+## ---- convert-to-factors
+
+convert_to_factor <- function(data){
+  
+  varlist <- c("randomisation", "sex", "age_cat", "education_cat", "hypertension", 
+               "heart_disease", "heart_failure")
+  
+  for (var in varlist){
+    
+    data[[var]] <- as.factor(data[[var]])
+    
+  }
+  
+  data[["randomisation"]] <- as.factor(ifelse(data[["randomisation"]] == 2, 1, 0))
+  
+  return(data)
+  
+}
+
 ## ---- create-synthetic-data
 
 create_follow_up <- function(input){
@@ -84,6 +103,8 @@ create_follow_up <- function(input){
 simulate_missing_t1 <- function(data, var, proportion, miss_mech){
   
   data$unique_id <- 1:nrow(data)
+  
+  data[["randomisation"]] <- as.factor(ifelse(data[["randomisation"]] == 0, 1, 2))
   
   data_subset_t1 <- data[, c("unique_id", 
                              "randomisation", 
@@ -198,6 +219,8 @@ simulate_missingness <- function(data, var, proportion, miss_mech){
                                            data_t1_complete = t2_input[[1]], 
                                            data_t2 = t2_output)
   
+  simulation_output <- convert_to_factor(data = simulation_output)
+  
   return(simulation_output)
   
 }
@@ -266,6 +289,19 @@ apply_mice <- function(data_to_impute, predictor_matrix, iterations){
   
 }
 
+## ---- create-single-mice-output
+
+create_single_mice <- function(data, miceImps){
+  
+  mice_imputed_single <- 
+    merge_imputations(data, 
+                      miceImps, 
+                      ori = data)
+  
+  return(mice_imputed_single)
+  
+}
+
 ## ---- simulate-mice
 
 simulate_mice <- function(data, var, iterations){
@@ -295,6 +331,47 @@ simulate_mice_bulk <- function(input, var, imp_iterations){
     mice_simulation <- simulate_mice(data = input[[sim]], 
                                      var = var, 
                                      iterations = imp_iterations)
+    
+    output[[paste(sim)]] <- mice_simulation
+    
+  }
+  
+  return(output)
+  
+}
+
+## ---- create-single-j2r-output-pipeline
+
+create_single_mice_pipeline <- function(data, var, iterations){
+  
+  mice_input <- create_mice_input(data = data, 
+                                  var = var)
+  
+  
+  mice_output <- apply_mice(data_to_impute = mice_input[[1]], 
+                            predictor_matrix = mice_input[[2]], 
+                            iterations = iterations)
+  
+  mice_single <- create_single_mice(data = mice_input[[1]], 
+                                    miceImps = mice_output)
+  
+  return(mice_single)
+  
+}
+
+## ---- create-single-j2r-output-bulk
+
+create_single_mice_bulk <- function(input, var, imp_iterations){
+  
+  output <- list()
+  
+  sim_iterations <- length(input)
+  
+  for (sim in 1:sim_iterations) {
+    
+    mice_simulation <- create_single_mice_pipeline(data = input[[sim]], 
+                                                 var = var, 
+                                                 iterations = imp_iterations)
     
     output[[paste(sim)]] <- mice_simulation
     
@@ -343,7 +420,7 @@ apply_j2r <- function(data_to_impute, var, iterations){
 
 ## ---- create-single-j2r-output
 
-create_single_j2r <- function(j2rImps){
+create_single_j2r <- function(data, j2rImps){
   
   j2r_bootImps_mids <- 
     datlist2mids(j2rImps, progress=FALSE)
@@ -391,6 +468,46 @@ simulate_j2r_bulk <- function(input, var, imp_iterations){
   }
   
   return(output)
+}
+
+## ---- create-single-j2r-output-pipeline
+
+create_single_j2r_pipeline <- function(data, var, iterations){
+  
+  j2r_input <- create_j2r_input(data = data, 
+                                var = var)
+  
+  j2r_output <- apply_j2r(data_to_impute = j2r_input, 
+                          var = var, 
+                          iterations = iterations)
+  
+  j2r_single <- create_single_j2r(data = j2r_input, 
+                                  j2rImps = j2r_output)
+  
+  return(j2r_single)
+  
+}
+
+## ---- create-single-j2r-output-bulk
+
+create_single_j2r_bulk <- function(input, var, imp_iterations){
+  
+  output <- list()
+  
+  sim_iterations <- length(input)
+  
+  for (sim in 1:sim_iterations) {
+    
+    j2r_simulation <- create_single_j2r_pipeline(data = input[[sim]], 
+                                                 var = var, 
+                                                 iterations = imp_iterations)
+    
+    output[[paste(sim)]] <- j2r_simulation
+    
+  }
+  
+  return(output)
+  
 }
 
 ## ---- simulate-locf
@@ -954,6 +1071,95 @@ model_lwd_bulk <- function(input, var){
                                  var = var)
     
     output[[paste(sim)]] <- lwd_model
+    
+  }
+  
+  return(output)
+  
+}
+
+
+## ---- evaluate-rmse-treatment-effect
+
+derive_treatment_rmse <- function(input, reference){
+  
+  output <- c()
+  
+  for (sim in 1:length(input)){
+    
+    treatment_effect <- input[[sim]][[3]]
+    
+    rmse_value <- sqrt(mean((
+      rep(reference, length(treatment_effect)) - 
+        treatment_effect)^2))
+    
+    output[sim] <- rmse_value
+    
+  }
+  
+  return(output)
+  
+}
+
+## ---- evaluate-unit-record-data
+
+evaluate_unit_record_rmse <- function(observed_data, predicted_data, observed_var, predicted_var){
+  
+  observed_data[["unique_id"]] <- c(1:226)
+  
+  predicted_data <- predicted_data[, c("unique_id", predicted_var)]
+  
+  names(predicted_data)[names(predicted_data) == predicted_var] <- "predicted"
+  
+  observed_data <- observed_data[, c("unique_id", observed_var)]
+  
+  names(observed_data)[names(observed_data) == observed_var] <- "observed"
+  
+  data_eval <- merge(predicted_data, observed_data, by = "unique_id")
+  
+  data_eval$difference <- (data_eval$predicted - data_eval$observed)^2
+  
+  rmse <- sqrt(sum(data_eval$difference, na.rm = TRUE)/nrow(data_eval))
+  
+  return(rmse)
+  
+}
+
+## ---- evaluate-unit-record-data-bulk
+
+evaluate_unit_record_rmse_bulk <- function(observed_data, input, observed_var, predicted_var, method){
+  
+  if(method == "MICE"){
+    
+    input <- create_single_mice_bulk(input = input, 
+                                     var = substr(observed_var, 1, nchar(observed_var)-3), 
+                                     imp_iterations = 20)
+    
+  }else if(method == "J2R"){
+    
+    input <- create_single_j2r_bulk(input = input, 
+                                    var = substr(observed_var, 1, nchar(observed_var)-3), 
+                                    imp_iterations = 20)
+    
+  }else if(method == "LOCF"){
+    
+    input <- simulate_locf_bulk(input = input, 
+                                var = substr(observed_var, 1, nchar(observed_var)-3))
+    
+  }
+  
+  output <- c()
+  
+  for (sim in 1:length(input)){
+    
+    predicted_data <- input[[sim]]
+    
+    rmse_unit_record <- evaluate_unit_record_rmse(observed_data = observed_data, 
+                                                  predicted_data = predicted_data, 
+                                                  observed_var = observed_var, 
+                                                  predicted_var = predicted_var)
+    
+    output[sim] <- rmse_unit_record
     
   }
   
