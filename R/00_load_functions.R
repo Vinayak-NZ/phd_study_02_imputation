@@ -1166,3 +1166,88 @@ evaluate_unit_record_rmse_bulk <- function(observed_data, input, observed_var, p
   return(output)
   
 }
+
+## ---- pool-treatment-effect
+
+derive_treatment_effect_mean <- function(input){
+  
+  estimate <- c()
+  
+  for(i in 1:100){
+    
+    estimate[i] <- input[[i]][[2]]$est[[12]]
+    
+  }
+  
+  mean_estimate <- mean(estimate)
+  
+  return(mean_estimate)
+  
+}
+
+## ---- pool-treatment-effect-se
+
+derive_treatment_se_mean <- function(input){
+  
+  effect_low <- c()
+  
+  effect_hi <- c()
+  
+  for(i in 1:100){
+    
+    effect_low[i] <- input[[i]][[2]]$`lo 95`[[12]]
+    
+    effect_hi[i] <- input[[i]][[2]]$`hi 95`[[12]]
+    
+  }
+  
+  mean_low <- mean(effect_low)
+  
+  mean_high <- mean(effect_hi)
+  
+  return(list(mean_low, mean_high))
+  
+}
+
+## ---- pool-treatment-effect-ns
+
+derive_treatment_effect_mean_ns <- function(input){
+  
+  estimate <- c()
+  
+  for(i in 1:100){
+    
+    estimate[i] <- input[[i]][[1]]$coefficients[[12]]
+    
+  }
+  
+  mean_estimate <- mean(estimate)
+  
+  return(mean_estimate)
+  
+}
+
+## ---- pool-treatment-effect-se-ns
+derive_treatment_se_mean_ns <- function(input){
+  
+  effect_low <- c()
+  
+  effect_hi <- c()
+  
+  for(i in 1:100){
+    
+    effect_low[i] <- 
+      input[[i]][[2]][14, 1]
+    
+    effect_hi[i] <- 
+      input[[i]][[2]][14, 2]
+    
+  }
+  
+  mean_low <- mean(effect_low)
+  
+  mean_high <- mean(effect_hi)
+  
+  return(list(mean_low, mean_high))
+  
+}

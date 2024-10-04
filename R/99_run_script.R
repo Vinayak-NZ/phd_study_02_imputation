@@ -42,5 +42,10 @@ source("R/08_visualise_missingness.R")
 source("R/08_visualise_data_comparisons.R")
 
 ## ---- visualise-estimates
-source("R/08_visualise_estimates.R")
-
+source("R/08_pool_effects_J2R.R")
+source("R/08_pool_effects_LOCF.R")
+source("R/08_pool_effects_LWD.R")
+source("R/08_pool_effects_MICE.R")
+source("R/08_create_treatment_effect_data.R")
+source("R/09_visualise_estimates.R")
+source("R/10_arrange_estimate_plots.R")

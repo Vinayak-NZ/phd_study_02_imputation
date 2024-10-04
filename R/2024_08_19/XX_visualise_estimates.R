@@ -3,21 +3,21 @@
 # self-care
 
 data_estimates_sc <- data.frame(source = c("MICE", "J2R", "LOCF", "LWD"),
-                   point_estimate = c(mice_pooled_output_sc$est[2], 
-                         j2r_pooled_output_sc$est[2], 
-                         locf_model_sc_summary$coefficients[2], 
-                         lwd_model_sc_summary$coefficients[2]),
-                   lower = c(mice_pooled_output_sc$est[2] - mice_pooled_output_sc$se[2], 
-                             j2r_pooled_output_sc$est[2] - mice_pooled_output_sc$se[2], 
-                             locf_model_sc_summary$coefficients[2] - locf_model_sc_summary$coefficients[2, 2], 
-                             lwd_model_sc_summary$coefficients[2] - lwd_model_sc_summary$coefficients[2, 2]),
-                   upper = c(mice_pooled_output_sc$est[2] + mice_pooled_output_sc$se[2], 
-                             j2r_pooled_output_sc$est[2] + j2r_pooled_output_sc$se[2], 
-                             locf_model_sc_summary$coefficients[2] + locf_model_sc_summary$coefficients[2, 2], 
-                             lwd_model_sc_summary$coefficients[2] + lwd_model_sc_summary$coefficients[2, 2]))
+                                point_estimate = c(mice_pooled_output_sc$est[2], 
+                                                   j2r_pooled_output_sc$est[2], 
+                                                   locf_model_sc_summary$coefficients[2], 
+                                                   lwd_model_sc_summary$coefficients[2]),
+                                lower = c(mice_pooled_output_sc$est[2] - mice_pooled_output_sc$se[2], 
+                                          j2r_pooled_output_sc$est[2] - mice_pooled_output_sc$se[2], 
+                                          locf_model_sc_summary$coefficients[2] - locf_model_sc_summary$coefficients[2, 2], 
+                                          lwd_model_sc_summary$coefficients[2] - lwd_model_sc_summary$coefficients[2, 2]),
+                                upper = c(mice_pooled_output_sc$est[2] + mice_pooled_output_sc$se[2], 
+                                          j2r_pooled_output_sc$est[2] + j2r_pooled_output_sc$se[2], 
+                                          locf_model_sc_summary$coefficients[2] + locf_model_sc_summary$coefficients[2, 2], 
+                                          lwd_model_sc_summary$coefficients[2] + lwd_model_sc_summary$coefficients[2, 2]))
 
 data_estimates_sc$source <- factor(data_estimates_sc$source, 
-                              levels = c("Observed", "MICE", "J2R", "LOCF", "LWD"))
+                                   levels = c("Observed", "MICE", "J2R", "LOCF", "LWD"))
 
 plot_estimates_sc <- 
   ggplot(data_estimates_sc, aes(source, point_estimate)) +
@@ -51,24 +51,24 @@ ggsave("output/plot_estimates_sc.png",
 # physical-activity
 
 data_estimates_pa <- data.frame(source = c("MICE", "J2R", "LOCF", "LWD"),
-                   point_estimate = c(mice_pooled_output_pa$est[2], 
-                         j2r_pooled_output_pa$est[2], 
-                         locf_model_pa_summary$coefficients[2], 
-                         lwd_model_pa_summary$coefficients[2]),
-                   lower = c(mice_pooled_output_pa$est[2] - mice_pooled_output_pa$se[2], 
-                             j2r_pooled_output_pa$est[2] - mice_pooled_output_pa$se[2], 
-                             locf_model_pa_summary$coefficients[2] - locf_model_pa_summary$coefficients[2, 2], 
-                             lwd_model_pa_summary$coefficients[2] - lwd_model_pa_summary$coefficients[2, 2]),
-                   upper = c(mice_pooled_output_pa$est[2] + mice_pooled_output_pa$se[2], 
-                             j2r_pooled_output_pa$est[2] + j2r_pooled_output_pa$se[2], 
-                             locf_model_pa_summary$coefficients[2] + locf_model_pa_summary$coefficients[2, 2], 
-                             lwd_model_pa_summary$coefficients[2] + lwd_model_pa_summary$coefficients[2, 2]))
+                                point_estimate = c(mice_pooled_output_pa$est[2], 
+                                                   j2r_pooled_output_pa$est[2], 
+                                                   locf_model_pa_summary$coefficients[2], 
+                                                   lwd_model_pa_summary$coefficients[2]),
+                                lower = c(mice_pooled_output_pa$est[2] - mice_pooled_output_pa$se[2], 
+                                          j2r_pooled_output_pa$est[2] - mice_pooled_output_pa$se[2], 
+                                          locf_model_pa_summary$coefficients[2] - locf_model_pa_summary$coefficients[2, 2], 
+                                          lwd_model_pa_summary$coefficients[2] - lwd_model_pa_summary$coefficients[2, 2]),
+                                upper = c(mice_pooled_output_pa$est[2] + mice_pooled_output_pa$se[2], 
+                                          j2r_pooled_output_pa$est[2] + j2r_pooled_output_pa$se[2], 
+                                          locf_model_pa_summary$coefficients[2] + locf_model_pa_summary$coefficients[2, 2], 
+                                          lwd_model_pa_summary$coefficients[2] + lwd_model_pa_summary$coefficients[2, 2]))
 
 data_estimates_pa$source <- factor(data_estimates_pa$source, 
                                    levels = c("Observed", "MICE", "J2R", "LOCF", "LWD"))
 
 plot_estimates_pa <- 
-ggplot(data_estimates_pa, aes(source, point_estimate)) +
+  ggplot(data_estimates_pa, aes(source, point_estimate)) +
   geom_point() +
   geom_errorbar(aes(ymin = lower, ymax = upper)) + 
   geom_hline(yintercept = observed_model_summary_pa$coefficients[2] - observed_model_summary_pa$coefficients[2, 2], 
