@@ -1175,13 +1175,13 @@ derive_treatment_effect_mean <- function(input){
   
   for(i in 1:100){
     
-    estimate[i] <- input[[i]][[2]]$est[[12]]
+    estimate[i] <- input[[i]][[2]]$est[[2]]
     
   }
   
-  mean_estimate <- mean(estimate)
+  av_estimate <- mean(estimate)
   
-  return(mean_estimate)
+  return(av_estimate)
   
 }
 
@@ -1195,17 +1195,17 @@ derive_treatment_se_mean <- function(input){
   
   for(i in 1:100){
     
-    effect_low[i] <- input[[i]][[2]]$`lo 95`[[12]]
+    effect_low[i] <- input[[i]][[2]]$`lo 95`[[2]]
     
-    effect_hi[i] <- input[[i]][[2]]$`hi 95`[[12]]
+    effect_hi[i] <- input[[i]][[2]]$`hi 95`[[2]]
     
   }
   
-  mean_low <- mean(effect_low)
+  av_low <- mean(effect_low)
   
-  mean_high <- mean(effect_hi)
+  av_high <- mean(effect_hi)
   
-  return(list(mean_low, mean_high))
+  return(list(av_low, av_high))
   
 }
 
@@ -1217,13 +1217,13 @@ derive_treatment_effect_mean_ns <- function(input){
   
   for(i in 1:100){
     
-    estimate[i] <- input[[i]][[1]]$coefficients[[12]]
+    estimate[i] <- input[[i]][[1]]$coefficients[[2]]
     
   }
   
-  mean_estimate <- mean(estimate)
+  av_estimate <- mean(estimate)
   
-  return(mean_estimate)
+  return(av_estimate)
   
 }
 
@@ -1237,17 +1237,17 @@ derive_treatment_se_mean_ns <- function(input){
   for(i in 1:100){
     
     effect_low[i] <- 
-      input[[i]][[2]][14, 1]
+      input[[i]][[2]][4, 1]
     
     effect_hi[i] <- 
-      input[[i]][[2]][14, 2]
+      input[[i]][[2]][4, 2]
     
   }
   
-  mean_low <- mean(effect_low)
+  av_low <- mean(effect_low)
   
-  mean_high <- mean(effect_hi)
+  av_high <- mean(effect_hi)
   
-  return(list(mean_low, mean_high))
+  return(list(av_low, av_high))
   
 }

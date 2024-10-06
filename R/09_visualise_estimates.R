@@ -1,26 +1,26 @@
 ## ---- visualise-treatment-effects
 
 observed_sc_low <- 
-  observed_model_summary_sc$coefficients[12] -  
-  1.96*(observed_model_summary_sc$coefficients[12, 2])
+  observed_model_summary_sc$coefficients[2] -  
+  1.96*(observed_model_summary_sc$coefficients[2, 2])
   
 observed_sc_est <- 
-  observed_model_summary_sc$coefficients[12]
+  observed_model_summary_sc$coefficients[2]
   
 observed_sc_high <- 
-  observed_model_summary_sc$coefficients[12] +  
-  1.96*(observed_model_summary_sc$coefficients[12, 2])
+  observed_model_summary_sc$coefficients[2] +  
+  1.96*(observed_model_summary_sc$coefficients[2, 2])
 
 observed_pa_low <- 
-  observed_model_summary_pa$coefficients[12] -  
-  1.96*(observed_model_summary_pa$coefficients[12, 2])
+  observed_model_summary_pa$coefficients[2] -  
+  1.96*(observed_model_summary_pa$coefficients[2, 2])
 
 observed_pa_est <- 
-  observed_model_summary_pa$coefficients[12]
+  observed_model_summary_pa$coefficients[2]
 
 observed_pa_high <- 
-  observed_model_summary_pa$coefficients[12] +  
-  1.96*(observed_model_summary_pa$coefficients[12, 2])
+  observed_model_summary_pa$coefficients[2] +  
+  1.96*(observed_model_summary_pa$coefficients[2, 2])
 
 # self-care-mcar-20
 
@@ -43,9 +43,9 @@ plot_estimates_sc_mcar_20 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MCAR 20%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -75,9 +75,9 @@ plot_estimates_sc_mcar_30 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MCAR 30%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -107,9 +107,9 @@ plot_estimates_sc_mcar_40 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MCAR 40%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -139,9 +139,9 @@ plot_estimates_sc_mar_20 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MAR 20%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -171,9 +171,9 @@ plot_estimates_sc_mar_30 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MAR 30%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -203,9 +203,9 @@ plot_estimates_sc_mar_40 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MAR 40%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -235,9 +235,9 @@ plot_estimates_sc_mnar_20 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MNAR 20%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -267,9 +267,9 @@ plot_estimates_sc_mnar_30 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MNAR 30%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -299,9 +299,9 @@ plot_estimates_sc_mnar_40 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on self-care", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on self-care", 
+       subtitle = "MNAR 40%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -331,9 +331,9 @@ plot_estimates_pa_mcar_20 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MCAR 20%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -363,9 +363,9 @@ plot_estimates_pa_mcar_30 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MCAR 30%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -395,9 +395,9 @@ plot_estimates_pa_mcar_40 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MCAR 40%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -427,9 +427,9 @@ plot_estimates_pa_mar_20 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MAR 20%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -459,9 +459,9 @@ plot_estimates_pa_mar_30 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MAR 30%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -491,9 +491,9 @@ plot_estimates_pa_mar_40 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MAR 40%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -523,9 +523,9 @@ plot_estimates_pa_mnar_20 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MNAR 20%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -555,9 +555,9 @@ plot_estimates_pa_mnar_30 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MNAR 30%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -587,9 +587,9 @@ plot_estimates_pa_mnar_40 <-
              linetype = "dashed", 
              linewidth = 1, 
              color = "#4739a2") + 
-  labs(title = "Estimating treatment effect on physical-activity", 
-       subtitle = "Estimates and Confidence Intervals",
-       caption = "Data source: Cardiovascular Rehabilitation Tool") + 
+  labs(title = "Estimating intervention effects on physical-activityity", 
+       subtitle = "MNAR 40%",
+       caption = "Data source: DHI C") + 
   xlab("Method for managing dropout") + 
   ylab("Parameter estimate") + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
